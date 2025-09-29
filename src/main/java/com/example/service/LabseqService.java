@@ -27,13 +27,15 @@ public class LabseqService {
             return cache.get(n);
         }
 
-        int counter = 4;
+        int counter = cache.size();
 
         while (counter <= n) {
-            cache.put(counter++, BigInteger.ONE);
+            BigInteger valueToAdd = cache.get(counter-4).add(cache.get(counter-3));
+            cache.put(counter, valueToAdd);
+            counter++;
         }
 
-        return cache.get(n-4).add(cache.get(n-3));
+        return cache.get(n);
     }
 
 }
