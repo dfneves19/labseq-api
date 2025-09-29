@@ -14,6 +14,8 @@ public class LabseqResource {
     @Inject
     LabseqService labseqService;
 
+    public record LabseqResponse (int n, String value){}
+
     @GET
     @Path("/{n}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -30,11 +32,9 @@ public class LabseqResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        try {
-            BigInteger value = labseqService.getSequence(n);
-            return Response.ok(value).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        BigInteger value = labseqService.getSequence(n);
+        LabseqResponse response = new LabseqResponse(n,value.toString());
+        return Response.ok(response).build();
+
     }
 }
