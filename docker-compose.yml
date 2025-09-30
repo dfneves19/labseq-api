@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend/src/main
+      dockerfile: docker/Dockerfile.jvm
+    container_name: quarkus-backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: angular-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
