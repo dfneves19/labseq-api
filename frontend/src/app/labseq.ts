@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+export class LabseqService {
+  private apiUrl = 'http://localhost:8080/labseq'; // backend URL
 
-@Injectable({
-  providedIn: 'root'
-})
-export class Labseq {
-
+  async getValue(n: number): Promise<{ n: number; value: string }> {
+    const response = await fetch(`${this.apiUrl}/${n}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch value');
+    }
+    return await response.json();
+  }
 }
