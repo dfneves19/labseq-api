@@ -22,7 +22,7 @@ public class LabseqService {
     public BigInteger getSequence(int n) {
 
         if (n < 0) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            throw new IllegalArgumentException("n should be greater than 0");
         } else if (n < 4) {
             return cache.get(n);
         }
