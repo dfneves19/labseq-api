@@ -1,9 +1,6 @@
 package com.example.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
-
 import java.math.BigInteger;
 import java.util.HashMap;
 
