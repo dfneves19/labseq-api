@@ -20,7 +20,7 @@ export class App {
     this.error.set(null);
     this.value.set(null);
 
-    const nValue = this.n();  // store in local variable
+    const nValue = this.n();
     if (nValue === null || nValue < 0) {
       this.error.set('Please enter a positive integer');
       return;
