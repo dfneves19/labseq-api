@@ -1,43 +1,36 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { LabseqService } from './labseq';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  imports: [CommonModule],
+  styleUrls: ['./app.css'],
+  standalone: true
 })
 export class App {
-  protected readonly title = signal('frontend');
-}
+  n = signal<number | null>(null);
+  value = signal<string | null>(null);
+  error = signal<string | null>(null);
 
-import { LabseqService } from './labseq';
+  private service = new LabseqService();
 
-const service = new LabseqService();
+  async calculate() {
+    this.error.set(null);
+    this.value.set(null);
 
-window.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('nInput') as HTMLInputElement;
-  const button = document.getElementById('calculateButton') as HTMLButtonElement;
-  const resultDiv = document.getElementById('resultDiv') as HTMLDivElement;
-  const errorDiv = document.getElementById('errorDiv') as HTMLDivElement;
-
-  button.addEventListener('click', async () => {
-    resultDiv.innerHTML = '';
-    errorDiv.innerHTML = '';
-
-    const n = Number(input.value);
-
-    if (isNaN(n) || n < 0) {
-      errorDiv.innerHTML = 'Please enter a positive integer';
+    const nValue = this.n();  // store in local variable
+    if (nValue === null || nValue < 0) {
+      this.error.set('Please enter a positive integer');
       return;
     }
 
     try {
-      const data = await service.getValue(n);
-      resultDiv.innerHTML = `<p><strong>n:</strong> ${data.n}</p>
-                             <p><strong>value:</strong> ${data.value}</p>`;
-    } catch (err) {
-      errorDiv.innerHTML = 'Error fetching value';
+      const data = await this.service.getValue(nValue);
+      this.value.set(data.value);
+    } catch {
+      this.error.set('Error fetching value');
     }
-  });
-});
+  }
+}
