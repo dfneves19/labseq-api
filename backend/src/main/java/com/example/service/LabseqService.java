@@ -24,6 +24,7 @@ public class LabseqService {
             return cache.get(n);
         }
 
+        // Starts from the last saved number
         int counter = cache.size();
 
         while (counter <= n) {

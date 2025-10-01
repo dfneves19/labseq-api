@@ -35,6 +35,7 @@ public class LabseqResource {
 
         int n;
 
+        // Check if input is an integer
         try {
             n = Integer.parseInt(nString);
         } catch (NumberFormatException e) {
